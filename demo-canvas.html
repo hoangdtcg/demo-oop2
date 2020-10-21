@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Canvas</title>
+    <script src="Ball.js"></script>
+</head>
+<body>
+<canvas id="myCanvas" width="600px" height="400px" style="background-color: white"></canvas>
+<img src="ball.jpeg" id="base-img" style="display: none">
+<script>
+    let canvas = document.getElementById('myCanvas');
+    let pen = canvas.getContext('2d');
+    const START_Y = canvas.height - 10;
+
+    function drawRect() {
+        pen.beginPath();
+        pen.rect(100, 100, 50, 50);
+        pen.strokeStyle = 'white';
+        pen.lineWidth = 5;
+        pen.fillStyle = 'red';
+        pen.stroke();
+        pen.fill();
+        pen.closePath();
+    }
+
+    function drawCircle() {
+        pen.beginPath();
+        pen.arc(100, 100, 20, 3 / 2 * Math.PI, Math.PI / 2);
+        pen.strokeStyle = 'pink';
+        pen.lineWidth = 5;
+        pen.fillStyle = 'black';
+        pen.stroke();
+        pen.fill();
+        pen.closePath();
+    }
+
+    function drawCircle2(x, y, radius) {
+        pen.beginPath();
+        pen.arc(x, y, radius, 0, Math.PI * 2);
+        pen.strokeStyle = 'pink';
+        pen.lineWidth = 5;
+        pen.fillStyle = 'black';
+        pen.stroke();
+        pen.fill();
+        pen.closePath();
+    }
+
+
+    // drawRect();
+    let balls = [];
+
+    function moveBall() {
+        pen.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < balls.length; i++) {
+            balls[i].drawImg(canvas);
+            // if(balls[i].y > 0){
+            //     balls[i].flyTop();
+            // }else {
+            //     balls[i].fallDown();
+            // }
+
+            if (balls[i].y == 0 || balls[i].y == canvas.height) {
+                balls[i].speed = -balls[i].speed;
+                console.log(balls[i].y);
+            }
+            balls[i].flyTop();
+        }
+    }
+
+
+    // drawCircle2(200,200,60);
+
+    for (let i = 0; i < 1; i++) {
+        let x = Math.floor(Math.random() * canvas.width);
+        // let y = Math.floor(Math.random()*canvas.height);
+        let y = START_Y;
+        let radius = Math.floor(Math.random() * 20) + 10;
+        let speed = Math.floor(Math.random() * 7) + 2;
+        let ball = new Ball(x, y, radius, speed);
+        balls.push(ball);
+    }
+
+    setInterval(moveBall, 1000 / 60);
+</script>
+</body>
+</html>
